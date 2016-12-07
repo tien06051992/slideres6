@@ -1,0 +1,26 @@
+{
+  "name": "es6-js-slideshow",
+  "version": "1.0.0",
+  "description": "ES6 Javascript Slideshow",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --progress --inline --hot",
+    "build": "webpack-dev-server --content-base"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.2.1",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.1.18",
+    "css-loader": "^0.26.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "jsdom": "^8.1.0",
+    "node-sass": "^3.13.0",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  },
+  "dependencies": {}
+}
