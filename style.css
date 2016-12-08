@@ -4,12 +4,12 @@
     margin-left: auto;
     margin-right: auto;
     overflow: hidden;
+    position: relative;
 }
 
 .slides {
     overflow-x: hidden;
     position: relative;
-    height: 300px;
     width: 300px;
     padding: 0px;
     margin: 0px;
@@ -46,12 +46,24 @@
 .nav-slider span {
     cursor: pointer;
 }
-.nav-slider span:hover {
+.nav-slider span:hover,
+.dot-sliders span:hover {
     color: blue;
+    cursor: pointer;
 }
 .prev {
     float: left;
 }
 .next {
     float: right;
+}
+.dot-sliders {
+    position: absolute;
+    bottom: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.dot-sliders span {
+    margin: 0 2px;
+    display: inline-block;
 }

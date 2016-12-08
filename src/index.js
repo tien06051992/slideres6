@@ -6,6 +6,7 @@ class Slider {
         this.sliderBar = this.slider.children[0];
         this.elementCount = this.sliderBar.childElementCount;
         this.generateNav();
+        this.generateDot();
         this.setupSliderBar();
         this.currSlide = 0;
         this.registerEventNavigation();
@@ -30,6 +31,18 @@ class Slider {
         div.innerHTML = html;
     }
 
+    generateDot() {
+        let div = document.createElement('div');
+        div.className = 'dot-sliders'
+        for(let i = 0; i < this.elementCount; i++) {
+            let item = document.createElement('span');
+            item.setAttribute("data-item", i);
+            item.innerHTML = i + 1;
+            div.appendChild(item);
+        }
+        this.slider.appendChild(div);
+    }
+
     setupSliderBar() {
         for(let i = 0; i < this.elementCount; i++) {
             this.sliderBar.children[i].style.width = this.slider.offsetWidth + 'px';
@@ -48,6 +61,8 @@ class Slider {
     prevSlide() {
         if(self.currSlide != 0) {
             self.currSlide = (self.currSlide - 1) % self.elementCount;
+        }else {
+            self.currSlide = self.elementCount - 1;
         }
         console.log(self.currSlide);
         self.animateSliderBar(self.currSlide);
