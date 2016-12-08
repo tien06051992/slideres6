@@ -11,6 +11,21 @@ class Slider {
         this.setupSliderBar();
         this.currSlide = 0;
         this.registerEventNavigation();
+        this.currDot;
+        this.wrapDot;
+        this.currWidthSlider = this.slider.offsetWidth;
+        window.onresize = function() {
+
+            console.log(self.slider.offsetWidth + " / " + self.currWidthSlider);
+            //if(self.slider.offsetWidth < self.currWidthSlider) {
+                self.setupSliderBar();
+                setTimeout(function() {
+                    self.animateSliderBar(self.currSlide);
+                },500);
+            // }else {
+            //     console.log("dz");
+            // }
+        }
     }
 
     getId() {
@@ -19,6 +34,12 @@ class Slider {
 
     getSlideNumber() {
         return this.elementCount;
+    }
+
+    resizeSlider() {
+        for (let i = 0; i < this.elementCount; i++) {
+            this.sliderBar.children[i].style.width = self.slider.offsetWidth + 'px';
+        }
     }
 
     generateNav() {
@@ -33,25 +54,34 @@ class Slider {
     }
 
     generateDot() {
-        let div = document.createElement('div');
-        div.className = 'dot-sliders';
+        this.wrapDot = document.createElement('div');
+        this.wrapDot.className = 'dot-sliders';
         for (let i = 0; i < this.elementCount; i++) {
             let item = document.createElement('span');
             item.setAttribute("data-item", i);
-            div.appendChild(item);
+            item.addEventListener("click",this.slideTo, false);
+            this.wrapDot.appendChild(item);
+            if( i == 0) {
+                this.currDot = item;
+                this.currDot.className += "active";
+            }
         }
-        this.slider.appendChild(div);
+        this.slider.appendChild(this.wrapDot);
 
     }
 
+    slideTo() {
+        this.animateSliderBar();
+    }
+
     setupSliderBar() {
-        for (let i = 0; i < this.elementCount; i++) {
-            this.sliderBar.children[i].style.width = this.slider.offsetWidth + 'px';
-        }
+        this.resizeSlider();
         this.sliderBar.style.width = this.slider.offsetWidth * this.elementCount + 'px';
-        setTimeout(function() {
+        this.slider.style.height = this.sliderBar.children[0].offsetHeight + 'px';
+/*        setTimeout(function() {
+            
             self.sliderBar.className += " transition";
-        },100);
+        },100);*/
     }
 
     nextSlide() {
@@ -59,7 +89,9 @@ class Slider {
             self.currSlide = (self.currSlide + 1) % self.elementCount;
         }
         console.log(self.currSlide);
+        self.currDot.className = "";
         self.animateSliderBar(self.currSlide);
+        self.updateCurrentDot(self.currSlide);
     }
 
     prevSlide() {
@@ -69,23 +101,32 @@ class Slider {
             self.currSlide = self.elementCount - 1;
         }
         console.log(self.currSlide);
+        self.currDot.className = "";
         self.animateSliderBar(self.currSlide);
+        self.updateCurrentDot(self.currSlide);
     }
 
     registerEventNavigation() {
         document.getElementById(`${this.id}-prev`).addEventListener("click", this.prevSlide);
         document.getElementById(`${this.id}-next`).addEventListener("click", this.nextSlide);
-        //this.sliderBar.className += " transition";
     }
 
     animateSliderBar(slideItem) {
         self.sliderBar.style.transform = "translateX(" + -(slideItem * self.slider.offsetWidth) + "px)";
     }
 
-    slideTo(targetSlide) {
-        self.currSlide = targetSlide % self.elementCount;
+    slideTo() {
+        self.currSlide = this.getAttribute("data-item") % self.elementCount;
         console.log(self.currSlide);
         self.animateSliderBar(self.currSlide);
+        self.updateCurrentDot(self.currSlide);
+    }
+
+    updateCurrentDot(target) {
+        self.currDot.className = "";
+        self.wrapDot.children[target].className = "active";
+        self.currDot = self.wrapDot.children[target];
     }
 }
+
 const sliderOne = new Slider('slide-one');
